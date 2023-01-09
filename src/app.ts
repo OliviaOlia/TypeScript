@@ -1,7 +1,12 @@
 /* eslint-disable no-redeclare */
 
-import { ReferenceItem } from "./classes";
-import { Logger } from "./interfaces";
+import { ReferenceItem, UL, RefBook, Shelf } from "./classes";
+import { Book, Librarian, Logger, Magazine } from "./interfaces";
+//import Refbook from './classes/encyclopedia';
+import { getAllBooks, printRefBook, purge, getObjectProperty, createCustomer, getBookByCatagory, logCategorySearch, getBooksByCategoryPromise, logSearchResults } from "./functions";
+import { Library } from "./classes/library";
+import { Category } from "./enums";
+import { BookRequiredFields, CreateCustomerFunctionType, UpdateBook } from "./types";
 
 
 showHello('greeting', 'TypeScript');
@@ -25,25 +30,6 @@ function showHello(divName: string, name: string) {
 
 
 
-class Encyclopedia extends ReferenceItem {
-    constructor(
-        id: number,
-        title: string,
-        year: number,
-        public edition: number
-    ) {
-        super(id, title, year);
-    }
-
-    override printItem(): void {
-        super.printItem();
-        console.log(`Edition: ${this.edition} (${this.year})`)
-    }
-
-    printCitation(): void {
-        console.log(`${this.title} - ${this.year}`)
-    }
-}
 
 
 //========================================================
@@ -155,9 +141,9 @@ console.log(ref.publisher);
 console.log(ref.getID()); */
 //======================================================
 // Task 05.02
-/* const refBook: Encyclopedia = new Encyclopedia(1, 'Learn TS', 2022, 2);
-refBook.printItem();
-console.log(refBook); */
+//const refBook: Refbook = new Refbook(1, 'Learn TS', 2022, 2);
+//refBook.printItem();
+//console.log(refBook);
 //======================================================
 // Task 05.03
 /* const refBook: Encyclopedia = new Encyclopedia(1, 'Learn TS', 2022, 2);
@@ -166,7 +152,7 @@ console.log(refBook);
 refBook.printCitation(); */
 //======================================================
 // Task 05.04
-/*const favoriteLibrarian: Librarian = new UniversityLibrarian();
+/*const favoriteLibrarian: Librarian = new UL.UniversityLibrarian();
 favoriteLibrarian.name = 'Liv';
 favoriteLibrarian.assistCustomer('Boris', 'Learn TS');
 */
@@ -183,3 +169,155 @@ favoriteLibrarian.assistCustomer('Boris', 'Learn TS');
 
 //const options: TOptions = {duration: 20};
 //const options2 = setDefaultConfig(options);
+//==============================================
+//  Task 06.03, 04
+//const refBook: RefBook = new RefBook(1,'Learn TypeScript', 2022, 2);
+//printRefBook(refBook);
+
+//const favoriteLibrarian: Librarian = new UL.UniversityLibrarian();
+//printRefBook(favoriteLibrarian);
+
+//=========================================
+// Task 06.05
+//const flag = false;
+
+/*if(flag) {
+    import('./classes')
+         .then(o => {
+            const reader = new o.Reader();
+            reader.name = "Olia";
+            reader.take(getAllBooks()[0]);
+         })
+          .catch(err => console.log(err));
+} */
+
+/*if(flag) {
+    const o = await import('./classes');
+         /*.then(o => {
+            const reader = new o.Reader();
+            reader.name = "Olia";
+            reader.take(getAllBooks()[0]);
+         })
+          .catch(err => console.log(err));
+} */
+////============================================
+// Task 06.06
+//let library: Library = new Library();
+/*let library: Library = {
+    id: 0,
+    name: "",
+    addressed: ""
+}; */
+
+//================================================
+//Task 07.01
+const inventory: Book[] =
+    [
+        { id: 10, title: 'The C Programming Language', author: 'K & R', available: true, category: Category.Software },
+        { id: 11, title: 'Code Complete', author: 'Steve McConnell', available: true, category: Category.Software },
+        { id: 12, title: '8-Bit Graphics with Cobol', author: 'A. B.', available: true, category: Category.Software },
+        { id: 13, title: 'Cool autoexec.bat Scripts!', author: 'C. D.', available: true, category: Category.Software }
+        ];
+/*const result1 = purge(inventory);
+
+const result2 = purge([1,2,3]); */
+//====================================================
+// Task 07.02
+/*const bookShelf = new Shelf<Book>();
+inventory.forEach(book => bookShelf.add(book));
+console.log(bookShelf.getFirst().title);
+const magazines: Magazine[] = [
+    { title: 'Programming Language Monthly', publisher: 'Code Mags' },
+    { title: 'Literary Fiction Quarterly', publisher: 'College Press' },
+    { title: 'Five Points', publisher: 'GSU' }
+   ];
+
+   const magazineShelf = new Shelf<Magazine>();
+   magazines.forEach(mag => magazineShelf.add(mag));
+   console.log(magazineShelf.getFirst().title);
+
+//===========================================================
+//Task 07.03
+magazineShelf.printTitles();
+magazineShelf.find('Five Points');
+
+getObjectProperty(magazines[0], 'title');
+//==========================================================
+//Task 07.04
+
+const bookRequiredFields: BookRequiredFields = {
+      author: 'Anna',
+      available: false,
+      category: Category.Angular,
+      id: 1,
+      markDamaged: null,
+      pages: 200,
+      title: 'Learn Angular'
+
+};
+
+const updatedBook: UpdateBook = {
+    id: 1,
+    pages: 200
+};
+
+let params: Parameters<CreateCustomerFunctionType>;
+params = ['anna', 30, 'Kyiv'];
+createCustomer(...params);
+*/
+//=============================================================
+// Task 08.01, 02
+const favoriteLibrarian = new UL.UniversityLibrarian();
+//favoriteLibrarian['a'] = 1; //але тут зміни робити можна
+//UL.UniversityLibrarian['a'] = 2; //object seal не дозволяє змінювати щось в самому класі чи прототипі
+//console.log(favoriteLibrarian);
+//декоратором ми додали новий метод, але викликати його тут не можемо.(через крапку) бо статичтна типізація, а сам метод уже з'являється при рантаймі програми
+//але можна виклаикати так:
+//favoriteLibrarian.name = 'Anna';
+//favoriteLibrarian['printLibrarian']();
+
+//======================================================
+// Task 08.03
+console.log(favoriteLibrarian);
+//favoriteLibrarian.assistFaculty = null;
+//favoriteLibrarian.teachComunity = null;
+// Task 08.04
+//const refBook: RefBook = new RefBook(1,'Learn TypeScript', 2022, 2);
+//refBook.printItem();
+
+//=========================================================
+// Task 08.05
+//favoriteLibrarian.name = 'Anna';
+//favoriteLibrarian.assistCustomer('Boris', 'Learn TypeScript');
+//=======================================================
+//Task 08.06
+//favoriteLibrarian.name = 'Anna';
+//favoriteLibrarian.assistCustomer('Boris', 'Learn TypeScript');
+// Task 08.07
+//const refBook: RefBook = new RefBook(1,'Learn TypeScript', 2022, 2);
+//refBook.copies = 10;
+//console.log(refBook.copies);
+//=========================================================
+// Task 09.01
+/*console.log('Begin');
+getBookByCatagory(Category.JavaScript, logCategorySearch);
+getBookByCatagory(Category.Software, logCategorySearch);
+console.log('End');
+//==========================================================
+// Task 09.02
+getBooksByCategoryPromise(Category.JavaScript)
+        .then(titles => {
+            console.log(titles);
+            return Promise.resolve(titles.length);
+        })
+        .then(n => console.log(n))
+        .catch(reason => console.log(reason));
+getBooksByCategoryPromise(Category.Software)
+        .then(titles => console.log(titles))
+        .catch(reason => console.log(reason)); */
+
+//Task 09.03
+/*console.log('Begin');
+logSearchResults(Category.JavaScript);
+logSearchResults(Category.Software);
+console.log('End'); */

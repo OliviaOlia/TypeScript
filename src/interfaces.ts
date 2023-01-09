@@ -35,4 +35,24 @@ interface TOptions {
      speed?: number;
 }
 
-export {Book, TOptions, Librarian, Author, Person, DamagedLogger as Logger};
+interface Magazine {
+     title: string;
+     publisher: string;
+}
+
+
+interface ShelfItem {
+    title: string;
+}
+
+
+interface LibMgrCallback {
+    (err: Error | null, titles: string[] | null ): void;
+}
+
+
+interface Callback<T> {
+    (err: Error | null, data: T[] | null ): void;
+}
+
+export {Book, TOptions, Librarian, Author, Person, ShelfItem, LibMgrCallback, Callback, Magazine, DamagedLogger as Logger};
